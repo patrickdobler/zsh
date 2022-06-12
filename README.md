@@ -8,6 +8,7 @@ yay -S zsh-you-should-use nerd-fonts-fira-code ttf-meslo autojump
 pacman -S zsh zsh-syntax-highlighting zsh-autosuggestions
 
 touch "$HOME/.cache/zshhistory"
+git clone https://github.com/patrickdobler/zsh
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
 sudo cp ~/zsh/.zshrc ~/
 chsh -s /bin/zsh
