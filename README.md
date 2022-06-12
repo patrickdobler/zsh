@@ -25,6 +25,10 @@ chsh -s /bin/zsh
 - nerd-fonts-fira-code - free monospaced font with programming ligatures
 - powerlevel10k - theme for Zsh, emphasizes speed, flexibility and out-of-the-box experience
 
+## GNOME Terminal Color Settings
+
+![grafik](https://user-images.githubusercontent.com/16536946/173252796-b4065856-13f7-45ab-88b7-358c92e181d7.png)
+
 
 ## Custom keybindings
 
