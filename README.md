@@ -41,7 +41,6 @@ chsh -s /bin/zsh
 
 
 ## Credits
-
-https://github.com/ChrisTitusTech/zsh
-https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/archlinux/archlinux.plugin.zsh
-https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/common-aliases/common-aliases.plugin.zsh
+- https://github.com/ChrisTitusTech/zsh
+- https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/archlinux/archlinux.plugin.zsh
+- https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/common-aliases/common-aliases.plugin.zsh
