@@ -3,7 +3,7 @@ My ZSH Config
 
 ## Setup
 ```
-pacman -S zsh ttf-fira-code
+pacman -S zsh exa ttf-fira-code
 
 touch "$HOME/.cache/zshhistory"
 git clone https://github.com/patrickdobler/zsh
