@@ -7,7 +7,8 @@ pacman -S zsh ttf-fira-code
 
 touch "$HOME/.cache/zshhistory"
 git clone https://github.com/patrickdobler/zsh
-sudo mv ~/zsh/* ~/ && sudo rm -r zsh
+rm -rf ./zsh/.git ./zsh/README.md
+cp -r zsh/. $HOME && rm -rf zsh
 chsh -s /bin/zsh
 ```
 
