@@ -12,6 +12,18 @@ cp -r zsh/. $HOME && rm -rf zsh
 chsh -s /bin/zsh
 ```
 
+## Setup MacOS (iTerm)
+```
+brew install font-fira-code --cask
+brew install exa
+
+mkdir "$HOME/.cache"
+touch "$HOME/.cache/zshhistory"
+git clone https://github.com/patrickdobler/zsh
+rm -rf ./zsh/.git ./zsh/README.md
+cp -r zsh/. $HOME && rm -rf zsh
+```
+
 
 ## Arch Dependencies
 - zsh-syntax-highlighting - syntax highlighting for ZSH in standard repos
