@@ -25,6 +25,9 @@ cp -r zsh/. $HOME && rm -rf zsh
 chsh -s $(which zsh)
 ```
 
+### Screenshot
+![iterm](https://user-images.githubusercontent.com/16536946/226174939-4082f119-253a-4be8-9ca0-602a7c7e41cc.png)
+
 
 ## Arch Dependencies
 - zsh-syntax-highlighting - syntax highlighting for ZSH in standard repos
