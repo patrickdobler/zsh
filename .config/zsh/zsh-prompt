@@ -10,7 +10,7 @@ zstyle ':vcs_info:*' enable git
 # setup a hook that runs before every ptompt. 
 precmd_vcs_info() { vcs_info }
 precmd_functions+=( precmd_vcs_info )
-setopt prompt_subst
+setopt prompt_subst # Enable parameter expansion, command substitution, and arithmetic expansion in the prompt
 
 # add a function to check for untracked files in the directory.
 # from https://github.com/zsh-users/zsh/blob/master/Misc/vcs_info-examples

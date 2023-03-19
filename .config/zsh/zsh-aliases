@@ -1,113 +1,196 @@
 #!/bin/sh
 #######################################
-#               Pacman                #
+#             Linux only              #
 #######################################
 
-# Pacman - https://wiki.archlinux.org/index.php/Pacman_Tips
-alias pacupg='sudo pacman -Syu'
-alias pacin='sudo pacman -S'
-alias paclean='sudo pacman -Sc'
-alias pacins='sudo pacman -U'
-alias paclr='sudo pacman -Scc'
-alias pacre='sudo pacman -R'
-alias pacrem='sudo pacman -Rns'
-alias pacrep='pacman -Si'
-alias pacreps='pacman -Ss'
-alias pacloc='pacman -Qi'
-alias paclocs='pacman -Qs'
-alias pacinsd='sudo pacman -S --asdeps'
-alias pacmir='sudo pacman -Syy'
-alias paclsorphans='sudo pacman -Qdt'
-alias pacrmorphans='sudo pacman -Rs $(pacman -Qtdq)'
-alias pacfileupg='sudo pacman -Fy'
-alias pacfiles='pacman -F'
-alias pacls='pacman -Ql'
-alias pacown='pacman -Qo'
-alias pacupd="sudo pacman -Sy"
-alias upgrade='sudo pacman -Syu'
+if [[ $(uname) = 'Linux' ]]; then
+  #AUR helpers
+  if (( $+commands[yay] )); then
+    alias yaconf='yay -Pg'
+    alias yaclean='yay -Sc'
+    alias yaclr='yay -Scc'
+    alias yaupg='yay -Syu'
+    alias yasu='yay -Syu --noconfirm'
+    alias yain='yay -S'
+    alias yains='yay -U'
+    alias yare='yay -R'
+    alias yarem='yay -Rns'
+    alias yarep='yay -Si'
+    alias yareps='yay -Ss'
+    alias yaloc='yay -Qi'
+    alias yalocs='yay -Qs'
+    alias yalst='yay -Qe'
+    alias yaorph='yay -Qtd'
+    alias yainsd='yay -S --asdeps'
+    alias yamir='yay -Syy'
+    alias yaupd="yay -Sy"
+    alias upgrade='yay -Syu'
+  fi
 
-function paclist() {
-  # Based on https://bbs.archlinux.org/viewtopic.php?id=93683
-  pacman -Qqe | \
-    xargs -I '{}' \
-      expac "${bold_color}% 20n ${fg_no_bold[white]}%d${reset_color}" '{}'
-}
+  # Pacman - https://wiki.archlinux.org/index.php/Pacman_Tips
+  if (( $+commands[pacman] )); then
+    alias pacupg='sudo pacman -Syu'
+    alias pacin='sudo pacman -S'
+    alias paclean='sudo pacman -Sc'
+    alias pacins='sudo pacman -U'
+    alias paclr='sudo pacman -Scc'
+    alias pacre='sudo pacman -R'
+    alias pacrem='sudo pacman -Rns'
+    alias pacrep='pacman -Si'
+    alias pacreps='pacman -Ss'
+    alias pacloc='pacman -Qi'
+    alias paclocs='pacman -Qs'
+    alias pacinsd='sudo pacman -S --asdeps'
+    alias pacmir='sudo pacman -Syy'
+    alias paclsorphans='sudo pacman -Qdt'
+    alias pacrmorphans='sudo pacman -Rs $(pacman -Qtdq)'
+    alias pacfileupg='sudo pacman -Fy'
+    alias pacfiles='pacman -F'
+    alias pacls='pacman -Ql'
+    alias pacown='pacman -Qo'
+    alias pacupd="sudo pacman -Sy"
+    alias upgrade='sudo pacman -Syu'
+    
+    function paclist() {
+      # Based on https://bbs.archlinux.org/viewtopic.php?id=93683
+      pacman -Qqe | \
+        xargs -I '{}' \
+          expac "${bold_color}% 20n ${fg_no_bold[white]}%d${reset_color}" '{}'
+    }
+    
+    alias pacmanallkeys='sudo pacman-key --refresh-keys'
+    alias pacupdate='sudo pacman-mirrors --geoip'
+    
+    function pacmansignkeys() {
+      local key
+      for key in $@; do
+        sudo pacman-key --recv-keys $key
+        sudo pacman-key --lsign-key $key
+        printf 'trust\n3\n' | sudo gpg --homedir /etc/pacman.d/gnupg \
+          --no-permission-warning --command-fd 0 --edit-key $key
+      done
+    }
+  fi
 
-alias pacmanallkeys='sudo pacman-key --refresh-keys'
-alias pacupdate='sudo pacman-mirrors --geoip'
-
-function pacmansignkeys() {
-  local key
-  for key in $@; do
-    sudo pacman-key --recv-keys $key
-    sudo pacman-key --lsign-key $key
-    printf 'trust\n3\n' | sudo gpg --homedir /etc/pacman.d/gnupg \
-      --no-permission-warning --command-fd 0 --edit-key $key
-  done
-}
-
-
-#######################################
-#             AUR helpers             #
-#######################################
-
-if (( $+commands[yay] )); then
-  alias yaconf='yay -Pg'
-  alias yaclean='yay -Sc'
-  alias yaclr='yay -Scc'
-  alias yaupg='yay -Syu'
-  alias yasu='yay -Syu --noconfirm'
-  alias yain='yay -S'
-  alias yains='yay -U'
-  alias yare='yay -R'
-  alias yarem='yay -Rns'
-  alias yarep='yay -Si'
-  alias yareps='yay -Ss'
-  alias yaloc='yay -Qi'
-  alias yalocs='yay -Qs'
-  alias yalst='yay -Qe'
-  alias yaorph='yay -Qtd'
-  alias yainsd='yay -S --asdeps'
-  alias yamir='yay -Syy'
-  alias yaupd="yay -Sy"
-  alias upgrade='yay -Syu'
+  alias ssh-start='sudo systemctl start sshd'
+  alias ssh-stop='sudo systemctl stop sshd'
+  alias lbrynet='/opt/LBRY/resources/static/daemon/lbrynet'
+  alias update-grub='sudo grub-mkconfig -o /boot/grub/grub.cfg'
 fi
 
+#######################################
+#             MacOS only              #
+#######################################
+
+if [[ $(uname) = 'Darwin' ]]; then
+  alias showHidden='defaults write com.apple.finder AppleShowAllFiles TRUE'
+  alias hideHidden='defaults write com.apple.finder AppleShowAllFiles FALSE'
+
+  # Open the finder to a specified path or to current directory.
+  f() {
+      # DESC:  Opens the Finder to specified directory. (Default is current oath)
+      # ARGS:  $1 (optional): Path to open in finder
+      # REQS:  MacOS
+      # USAGE: f [path]
+      open -a "Finder" "${1:-.}"
+  }
+  alias subl='open -a "Sublime Text"'
+  alias oo='open .' # open current directory in OS X Finder
+
+  # Get macOS Software Updates, and update installed Homebrew and their installed packages
+  alias osupdate='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup'
+
+  # IP addresses
+  alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
+  alias localip="ipconfig getifaddr en0"
+  alias dns="scutil --dns | grep 'nameserver\[[0-9]*\]' | sort -u"
+
+  # Clean up LaunchServices to remove duplicates in the “Open With” menu
+  alias lscleanup="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user && killall Finder"
+
+  # Recursively delete `.DS_Store` files
+  alias dsclean="find . -type f -name '*.DS_Store' -ls -delete"
+
+  # alias to show all Mac App store apps
+  alias apps='mdfind "kMDItemAppStoreHasReceipt=1"'
+
+  # backup config
+  alias configbackup='mackup backup -f'
+
+  #Homebrew
+  alias brewa='brew autoremove'                         # auto uninstalls formulae that are no longer needed.
+  alias brewc='brew cleanup'                            # cleans the cache.
+  alias brewC='brew cleanup -s'                         # scrubs the cache, including downloads for the latest versions.
+  alias brewd='brew doctor'                             # checks your system for potential problems.
+  alias brewe='brew edit --formula'                     # edits given formula.
+  alias brewf='brew info --formula'                     # shows information about given formula.
+  alias brewi='brew install --formula'                  # installs given formula.
+  alias brewl='brew list --formula'                     # lists installed formulae.
+  alias brewL='brew leaves'                             # lists installed formulae that don't depend on other installed formula.
+  alias brewo='brew outdated --formula'                 # lists outdated installed formulae.
+  alias brewp='brew cleanup --prune=30'                 # removes all cache files older than 30d
+  alias brewr='brew reinstall --formula'                # reinstalls given formula.
+  alias brews='brew search --formula'                   # performs a search of formula names.
+  alias brewS='brew services'                           # manages background services with macOS' launchctl daemon manager.
+  alias brewu='brew update'                             # updates Homebrew and all formulae.
+  alias brewU='brew upgrade --formula --ignore-pinned'  # upgrades outdated and unpinned formulae.
+  alias brewx='brew uninstall --formula'                # uninstalls a given formula.
+  alias brewX='brew uninstall --formula --force'        # deletes all installed versions of given formula.
+  
+  # Homebrew Cask
+  alias caske='brew edit --cask'                        # edits given cask.
+  alias caskf='brew info --cask'                        # shows information about given cask.
+  alias caski='brew install --cask'                     # installs given cask.
+  alias caskl='brew list --cask'                        # lists installed casks.
+  alias casko='brew outdated --cask'                    # lists outdated installed casks.
+  alias caskr='brew reinstall --cask'                   # reinstalls given cask.
+  alias casks='brew search --cask'                      # performs a search of cask tokens.
+  alias caskU='brew upgrade --cask'                     # upgrades given cask or all outdated casks, if none given.
+  alias caskx='brew uninstall --cask'                   # uninstalls given cask.
+  alias caskX='brew uninstall --cask --force'           # uninstalls even if given cask does not appear to be present.
+  alias caskz='brew uninstall --cask --zap'             # zaps all files associated with given cask.
+
+  alias brewup='brewu && brewU && caskU && brewc && brewp && brewd'
+fi
 
 #######################################
 #          Advanced Aliases           #
 #######################################
 
+# Directory Aliases
 # ls, the common ones I use a lot shortened for rapid fire usage
-#alias l='ls -lFh'     #size,show type,human readable
-#alias la='ls -lAFh'   #long list,show almost all,show type,human readable
-#alias lr='ls -tRFh'   #sorted by date,recursive,show type,human readable
-#alias lt='ls -ltFh'   #long list,sorted by date,show type,human readable
-#alias ll='ls -l'      #long list
-#alias ldot='ls -ld .*'
-#alias lS='ls -1FSsh'
-#alias lart='ls -1Fcart'
-#alias lrt='ls -1Fcrt'
-#alias lsr='ls -lARFh' #Recursive list of files and directories
-#alias lsn='ls -1'     #A column contains name of files and directories
+if command -v exa &>/dev/null; then
+  alias l='exa'                                         #size,show type,human readable
+  alias la='exa -lah'                                   #long list,show almost all,show type,human readable
+  alias lr='exa -lh --sort old'                         #sorted by date,recursive,show type,human readable
+  alias lt='exa -lh --sort mod'                         #long list,sorted by date,show type,human readable
+  alias ll='exa -lh'                                    #long list
+  alias ldot='exa -ld .*'                               #list dot files
+  alias lone='exa -F --oneline'                         #oneline
+  alias lrt='exa -Fr --oneline'                         #oneline sorted by date
+  alias lsr='exa -laRFh'                                #Recursive list of files and directories
+  alias lamc='exa -lh --accessed --modified --created'  #show accessed, modified and created date
+  alias llg='exa --long --grid'                         #show ll in grid view
+  
+  alias tree='exa --tree --level=2'
+  alias treel='exa -lh --tree --level=2'
+  alias treela='exa -lah --tree --level=2'
+else
+  alias l='ls -lFh'     #size,show type,human readable
+  alias la='ls -lAFh'   #long list,show almost all,show type,human readable
+  alias lr='ls -tRFh'   #sorted by date,recursive,show type,human readable
+  alias lt='ls -ltFh'   #long list,sorted by date,show type,human readable
+  alias ll='ls -lh'     #long list
+  alias ldot='ls -ld .*'
+  alias lS='ls -1FSsh'
+  alias lart='ls -1Fcart'
+  alias lrt='ls -1Fcrt'
+  alias lsr='ls -lARFh' #Recursive list of files and directories
+  alias lsn='ls -1'     #A column contains name of files and directories
 
+  alias tree="ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'"
+fi
 
-# ls, the common ones I use a lot shortened for rapid fire usage
-alias l='exa'     #size,show type,human readable
-alias la='exa -lah'   #long list,show almost all,show type,human readable
-alias lr='exa -lh --sort old'   #sorted by date,recursive,show type,human readable
-alias lt='exa -lh --sort mod'   #long list,sorted by date,show type,human readable
-alias ll='exa -lh'      #long list
-alias ldot='exa -ld .*' #list dot files
-alias lone='exa -F --oneline' #oneline
-alias lrt='exa -Fr --oneline' #oneline sorted by date
-alias lsr='exa -laRFh' #Recursive list of files and directories
-alias lamc='exa -lh --accessed --modified --created'     #show accessed, modified and created date
-alias llg='exa --long --grid' #show ll in grid view
-
-alias tree='exa --tree --level=2'
-alias treel='exa -lh --tree --level=2'
-alias treela='exa -lah --tree --level=2'
 
 alias zshrc='${=EDITOR} ${ZDOTDIR:-$HOME}/.zshrc' # Quick access to the .zshrc file
 
@@ -130,8 +213,10 @@ alias -g P="2>&1| pygmentize -l pytb"
 
 alias dud='du -d 1 -h'
 alias duf='du -sh *'
+alias dus='du -sckx * | sort -nr' #directories sorted by size
 (( $+commands[fd] )) || alias fd='find . -type d -name'
 alias ff='find . -type f -name'
+alias filecount='find . -type f | wc -l' # number of files (not directories)
 
 alias h='history'
 alias hgrep="fc -El 0 | grep"
@@ -143,36 +228,94 @@ alias unexport='unset'
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
+alias md='mkdir -p'
+alias ..='cd ../'
+alias ...='cd ../../'
+alias cls='clear'
 
-#
-# # ex - archive extractor
-# # usage: ex <file>
-ex ()
-{
-  if [ -f $1 ] ; then
-    case $1 in
-      *.tar.bz2)   tar xjf $1   ;;
-      *.tar.gz)    tar xzf $1   ;;
-      *.tar.xz)    tar xJf $1   ;;
-      *.bz2)       bunzip2 $1   ;;
-      *.rar)       unrar x $1     ;;
-      *.gz)        gunzip $1    ;;
-      *.tar)       tar xf $1    ;;
-      *.tbz2)      tar xjf $1   ;;
-      *.tgz)       tar xzf $1   ;;
-      *.zip)       unzip $1     ;;
-      *.Z)         uncompress $1;;
-      *.7z)        7z x $1      ;;
-      *)           echo "'$1' cannot be extracted via ex()" ;;
-    esac
-  else
-    echo "'$1' is not a valid file"
-  fi
+# Prefer `htop` over `top` when installed
+[[ "$(command -v htop)" ]] \
+  && alias top="htop"
+
+
+extract() {
+    # SOURCE: https://natelandau.com/my-mac-os-zsh-profile/
+    # DESC:  Extracts a compressed file from multiple formats
+    # USAGE: extract -v <file>
+
+    local opt
+    local OPTIND=1
+
+    while getopts "hv" opt; do
+        case "$opt" in
+            h)
+                cat <<EOF
+  $ ${FUNCNAME[0]} [option] <archives>
+  options:
+    -h  show this message and exit
+    -v  verbosely list files processed
+EOF
+                return
+                ;;
+            v)
+                local -r verbose='v'
+                ;;
+            ?)
+                extract -h >&2
+                return 1
+                ;;
+        esac
+    done
+    shift $((OPTIND - 1))
+
+    [ $# -eq 0 ] && extract -h && return 1
+    while [ $# -gt 0 ]; do
+        if [ -f "$1" ]; then
+            case "$1" in
+                *.tar.bz2 | *.tbz | *.tbz2) tar "x${verbose}jf" "$1" ;;
+                *.tar.gz | *.tgz) tar "x${verbose}zf" "$1" ;;
+                *.tar.xz)
+                    xz --decompress "$1"
+                    set -- "$@" "${1:0:-3}"
+                    ;;
+                *.tar.Z)
+                    uncompress "$1"
+                    set -- "$@" "${1:0:-2}"
+                    ;;
+                *.bz2) bunzip2 "$1" ;;
+                *.deb) dpkg-deb -x${verbose} "$1" "${1:0:-4}" ;;
+                *.pax.gz)
+                    gunzip "$1"
+                    set -- "$@" "${1:0:-3}"
+                    ;;
+                *.gz) gunzip "$1" ;;
+                *.pax) pax -r -f "$1" ;;
+                *.pkg) pkgutil --expand "$1" "${1:0:-4}" ;;
+                *.rar) unrar x "$1" ;;
+                *.rpm) rpm2cpio "$1" | cpio -idm${verbose} ;;
+                *.tar) tar "x${verbose}f" "$1" ;;
+                *.txz)
+                    mv "$1" "${1:0:-4}.tar.xz"
+                    set -- "$@" "${1:0:-4}.tar.xz"
+                    ;;
+                *.xz) xz --decompress "$1" ;;
+                *.zip | *.war | *.jar) unzip "$1" ;;
+                *.Z) uncompress "$1" ;;
+                *.7z) 7za x "$1" ;;
+                *) echo "'$1' cannot be extracted via extract" >&2 ;;
+            esac
+        else
+            echo "extract: '$1' is not a valid file" >&2
+        fi
+        shift
+    done
 }
 
-alias ssh-start='sudo systemctl start sshd'
-alias ssh-stop='sudo systemctl stop sshd'
 
+
+
+
+# Git Shortcuts
 gitpush() {
     git add .
     git commit -m "$*"
@@ -188,5 +331,4 @@ gitupdate() {
 
 alias gp=gitpush
 alias gu=gitupdate
-alias lbrynet='/opt/LBRY/resources/static/daemon/lbrynet'
-alias update-grub='sudo grub-mkconfig -o /boot/grub/grub.cfg'
+

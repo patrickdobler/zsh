@@ -1,6 +1,6 @@
 # Custom ZSH Binds ## test with "showkey -a"
-# Commands https://web.cs.elte.hu/zsh-manual/zsh_14.html
-bindkey '^ ' autosuggest-accept
+# Commands https://web.archive.org/web/20220627024734/https://web.cs.elte.hu/zsh-manual/zsh_14.html
+bindkey  "^[[Z" autosuggest-accept
 bindkey  "^[[H" beginning-of-line
 bindkey  "^[[F" end-of-line
 bindkey  "^[[3~" delete-char
