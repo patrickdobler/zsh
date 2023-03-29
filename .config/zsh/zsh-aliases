@@ -96,6 +96,7 @@ if [[ $(uname) = 'Darwin' ]]; then
   }
   alias subl='open -a "Sublime Text"'
   alias oo='open .' # open current directory in OS X Finder
+  alias dr='defaults read'
 
   # Get macOS Software Updates, and update installed Homebrew and their installed packages
   alias osupdate='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup'
@@ -132,6 +133,7 @@ if [[ $(uname) = 'Darwin' ]]; then
   alias brewr='brew reinstall --formula'                # reinstalls given formula.
   alias brews='brew search --formula'                   # performs a search of formula names.
   alias brewS='brew services'                           # manages background services with macOS' launchctl daemon manager.
+  alias brewt='brew deps --tree --installed'		        # list installed packages with all dependencies
   alias brewu='brew update'                             # updates Homebrew and all formulae.
   alias brewU='brew upgrade --formula --ignore-pinned'  # upgrades outdated and unpinned formulae.
   alias brewx='brew uninstall --formula'                # uninstalls a given formula.
